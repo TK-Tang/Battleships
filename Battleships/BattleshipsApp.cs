@@ -14,7 +14,6 @@ namespace Battleships
                 _gameMaster = new GameMaster();
 
                 _gameMaster.Introductions();
-                _gameMaster.GameModeQuestion();
                 _gameMaster.FleetSettingsQuestion();
                 _gameMaster.ShipSettingsQuestion();
                 _gameMaster.FleetPlacementQuestion();

@@ -30,12 +30,16 @@ namespace Battleships.Services
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             _consoleMicroservice.GameMasterSpeech("Welcome to TK's Battleship Arena! Behold!\n");
             _consoleMicroservice.GameMasterSpeech("The mightiest C# console navy fleets brawl with each other on the high seas!\n");
-            _consoleMicroservice.GameMasterSpeech("First, setup. If you wish to duel with another human intellectual, type 'PVP'!\n");
-            _consoleMicroservice.GameMasterSpeech("However, if you have no rivals, then type 'PVE' and fight against an AI!\n");
+            _consoleMicroservice.GameMasterSpeech("First, setup.\n");
+                    (_player1, _player2, _board1, _board2, _gameMode) = _boardService.SetupPvPBoards();
+
         }
 
         public void GameModeQuestion()
         {
+            _consoleMicroservice.GameMasterSpeech("If you wish to duel with another human intellectual, type 'PVP'!\n");
+            _consoleMicroservice.GameMasterSpeech("However, if you have no rivals, then type 'PVE' and fight against an AI!\n");
+
             var input = _consoleMicroservice.GetInput("What was that? I didn't catch that");
 
             switch (input.ToLower())
@@ -58,7 +62,8 @@ namespace Battleships.Services
 
         public void FleetSettingsQuestion()
         {
-            _consoleMicroservice.GameMasterSpeech("Alrighty, now I'd like you to decide how many ships we shall field in the seas.\n");
+            (_player1, _player2, _board1, _board2, _gameMode) = _boardService.SetupPvPBoards();
+            _consoleMicroservice.GameMasterSpeech("I'd like you to decide how many ships we shall field in the seas.\n");
             _consoleMicroservice.GameMasterSpeech("Our Arena only permits at most " + GameSettings.FleetCap + " and at least " + GameSettings.FleetMinimum + ". \n");
             _consoleMicroservice.GameMasterSpeech("Warships are expensive hardware after all.\n");
 
