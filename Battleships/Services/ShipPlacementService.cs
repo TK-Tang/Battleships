@@ -160,25 +160,25 @@ namespace Battleships.Services
                 switch (orientation)
                 {
                     case "n":
-                        if (y + shipSize - 1 < 0 || y + shipSize - 1 > GameSettings.MaxBoardSize - 1)
+                        if (y + (shipSize - 1) < 0 || y + (shipSize - 1) > GameSettings.MaxBoardSize - 1)
                         {
                             return (false, 0, 0);
                         }
                         break;
                     case "s":
-                        if (y - shipSize - 1 < 0 || y - shipSize - 1 > GameSettings.MaxBoardSize - 1)
+                        if (y - (shipSize - 1) < 0 || y - (shipSize - 1) > GameSettings.MaxBoardSize - 1)
                         {
                             return (false, 0, 0);
                         }
                         break;
                     case "e":
-                        if (x + shipSize - 1 < 0 || x + shipSize - 1 > GameSettings.MaxBoardSize - 1)
+                        if (x + (shipSize - 1) < 0 || x + (shipSize - 1) > GameSettings.MaxBoardSize - 1)
                         {
                             return (false, 0, 0);
                         }
                         break;
                     case "w":
-                        if (x - shipSize - 1 < 0 || x - shipSize - 1 > GameSettings.MaxBoardSize - 1)
+                        if (x - (shipSize - 1) < 0 || x - (shipSize - 1) > GameSettings.MaxBoardSize - 1)
                         {
                             return (false, 0, 0);
                         }

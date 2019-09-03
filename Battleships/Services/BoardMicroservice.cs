@@ -32,6 +32,11 @@ namespace Battleships.Services
             if (cell.Ship != null)
             {
                 cell.Ship.Hitbox.Remove(cell);
+                if (cell.Ship.Hitbox.Count == 0)
+                {
+                    b.Fleet.Remove(cell.Ship);
+                }
+
                 return (true, cell.Ship);
             }
 

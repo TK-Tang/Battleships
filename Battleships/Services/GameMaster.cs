@@ -133,25 +133,41 @@ namespace Battleships.Services
             Thread.Sleep(3000);
             _consoleMicroservice.Clear();
 
-            var endGame = false;
-            while (!endGame)
+            Player winner;
+            while (true)
             {
+                _consoleMicroservice.GameMasterSpeech(_player1.Name + "'s Round.\n");
                 var damageReport = Round(_player1, _player2);
-                endGame = DamageReport(_player2, damageReport);
+                var endGame = DamageReport(_player2, damageReport);
 
                 if (endGame)
                 {
+                    winner = _player1;
                     break;
                 }
 
+                _consoleMicroservice.GameMasterSpeech(_player2.Name + "'s Round.\n");
                 damageReport = Round(_player2, _player1);
                 endGame = DamageReport(_player1, damageReport);
+
+                if (endGame)
+                {
+                    winner = _player2;
+                    break;
+                }
             }
+
+            _consoleMicroservice.Clear();
+            _consoleMicroservice.ShowBattleMap(_player1, _board1, ConsoleColor.DarkCyan, "[" + _player1.Name + "'s Board]: \n");
+            _consoleMicroservice.ShowBattleMap(_player2, _board2, ConsoleColor.DarkCyan, "[" + _player2.Name + "'s Board]: \n");
+
+            _consoleMicroservice.GameMasterSpeech(winner.Name + " was victorious!\n");
+            _consoleMicroservice.GameMasterSpeech("Restart the program to begin a new game.\n");
+            Thread.Sleep(20000);
         }
 
         private DamageReport Round(Player attackingPlayer, Player victimPlayer)
         {
-            _consoleMicroservice.GameMasterSpeech(attackingPlayer.Name + "'s Round.\n");
             _consoleMicroservice.ReadyFire(attackingPlayer.Name);
             _consoleMicroservice.RadarOperatorAlliedBoard(attackingPlayer.Name);
 
@@ -161,6 +177,7 @@ namespace Battleships.Services
 
             var valid = false;
             Ship target = null;
+
             while (!valid)
             {
                 Console.Write("Coordinates [x-y]: ");
@@ -176,26 +193,30 @@ namespace Battleships.Services
             _consoleMicroservice.Firing(attackingPlayer.Name);
             _consoleMicroservice.Tension();
 
-            var dR = Models.DamageReport.Miss;
+            DamageReport dR;
 
             if (target == null)
             {
                 _consoleMicroservice.Miss(attackingPlayer.Name);
+                _consoleMicroservice.Admiralty(attackingPlayer.Name, "No targets hit.\n");
                 dR = Models.DamageReport.Miss;
             }
             else if (target.Hitbox.Count > 1)
             {
                 _consoleMicroservice.EnemyShipHit(attackingPlayer.Name);
+                    _consoleMicroservice.Admiralty(attackingPlayer.Name, "Enemy warship damaged.\n");
                 dR = Models.DamageReport.Damage;
             }
             else if (target.Hitbox.Count == 1)
             {
                 _consoleMicroservice.EnemyShipHitCritical(attackingPlayer.Name);
+                _consoleMicroservice.Admiralty(attackingPlayer.Name, "Enemy warship critically damaged.\n");
                 dR = Models.DamageReport.CriticalDamage;
             }
             else
             {
                 _consoleMicroservice.EnemyShipSunk(attackingPlayer.Name);
+                _consoleMicroservice.Admiralty(attackingPlayer.Name, "Enemy warship destroyed.\n");
                 dR = Models.DamageReport.Sunk;
             }
 
@@ -210,22 +231,25 @@ namespace Battleships.Services
             {
                 case Models.DamageReport.Damage:
                     _consoleMicroservice.AlliedShipDamaged(p.Name);
+                    _consoleMicroservice.Admiralty(p.Name, "Allied warship under attack.\n");
                     return false;
                 case Models.DamageReport.CriticalDamage:
                     _consoleMicroservice.AlliedShipDamagedCritical(p.Name);
+                    _consoleMicroservice.Admiralty(p.Name, "Allied warship critically damaged.\n");
                     return false;
                 case Models.DamageReport.Sunk:
                     _consoleMicroservice.AlliedShipDestroyed(p.Name);
-                    return EndGame();
+                    _consoleMicroservice.Admiralty(p.Name, "Allied warship lost.\n");
+                    if (!p.Board.HasFleet())
+                    {
+                        return true;
+                    }
                     break;
                 default:
                     return false;
             }
-        }
 
-        private bool EndGame()
-        {
-            foreach(var )
+            return false;
         }
     }
 }

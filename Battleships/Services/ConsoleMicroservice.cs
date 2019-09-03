@@ -272,17 +272,17 @@ namespace Battleships.Services
             var speech = new List<string>
             {
                 "We have our strike coordinates. Open up with a barrage.",
-                "Green for missile launch",
-                "Confirmed missile launch. Target designated",
-                "Strike orders are in. Bring our cannons to bear",
+                "Green for missile launch.",
+                "Confirmed missile launch. Target designated.",
+                "Strike orders are in. Bring our cannons to bear.",
                 "Torpedoes away.",
-                "Hit that zone with a heavy burst",
-                "Missiles away",
-                "Bearing down on target",
+                "Hit that zone with a heavy burst.",
+                "Missiles away.",
+                "Bearing down on target.",
                 "Thirty degrees starboard. Angle it up fourty five degrees. Get ready.",
-                "Engaging",
-                "Strike craft away",
-                "Strike craft on deck. Luanching",
+                "Engaging.",
+                "Strike craft away.",
+                "Strike craft on deck runway. Launching.",
                 "Bomber on deck. Green for take off",
                 "Gunship on deck. Strike coordinates confirmed",
                 "Strike order confirmed. Go for Bomber.",
@@ -451,8 +451,8 @@ namespace Battleships.Services
 
             var speech = new List<string>
             {
-                "Kill confirmed. Great work fleet",
-                "Target eliminated. Need new orders",
+                "Kill confirmed. Great work fleet.",
+                "Target eliminated. Need new orders.",
                 "Target going under. Need new strike coordinates.",
                 "Enemy ship destroyed. Well done everyone",
                 "Enemy ship just blew up. Give us a new target.",
@@ -491,15 +491,16 @@ namespace Battleships.Services
                 "We're hit. Damage report.",
                 "Taking damage fleet.",
                 "We're under attack",
-                "We're under fire",
-                "Hold your positions, we're under attack",
-                "Incoming barrage",
+                "We're under fire.",
+                "Hold your positions, we're under attack.",
+                "Incoming barrage.",
                 "Incoming Torpedoes! Starboard!",
                 "Alert! Incoming Torpedoes! Portside!",
                 "We've taken damage fleet but the armor belt is holding.",
                 "Get a repair crew down to the lower decks.",
                 "Taking enemy fire.",
                 "Someone put that fire out!",
+                "Damage assessment in. Moderate impairment to ship capabilities.",
                 "Sustaining damage fleet.",
                 "We're taking enemy fire! Repair team one, you're up!",
                 "Under attack. Repair team two to station.",
@@ -543,7 +544,9 @@ namespace Battleships.Services
                 "Evacuate all non essential personnel! Now! Go! Go! Go!",
                 "We're lost. Get all non mandatory sailsmen off the ship.",
                 "Code red. I repeat code red.",
-                "Primary systems compromised. We're losing guidance fleet.",
+                "Hit! Hit! Damage Report!",
+                "We require immediate assistance! I repeat, we bloody need help here!",
+                "Primary systems compromised! We're losing guidance fleet!",
                 "Primary weapons down. Our generators have been knocked out. Back up systems not responding.",
                 "I need every repair team to focus on putting out that damn fire!",
                 "The lower decks are flooding rapidly. All able men, seal the damn hatches!"
@@ -575,15 +578,15 @@ namespace Battleships.Services
 
             var speech = new List<string>
             {
-                "Catastrophic reactor meltdown. Code red, I r... zzsschkk",
+                "Catastrophic reactor meltdown. We cannot maintain! Code red, I repeat, Code r... zzsschkk",
                 "We're going down. I repeat, we're go - zzsschkk",
-                "The ship... She's been ... Overwhelmed.. zzsschkk",
+                "Our battleship... She's being ... Overwhelmed.. zzsschkk",
                 "It's been an honor serving with you all gentlemen... zzsschkk",
                 "There's too much damage! Losing control! I repeat, we - zzsschhkk",
                 "I need repair teams to seal hatches on decks A to D! Fire team Zulu, stop that blazing inferno from reaching ammo compartment! And someone get me a direct line with the fle - zzzsschhk",
                 "Lifeboats away. Majority of the crew is... safe. But ... it is too late for me, I'll be going down with the ship.. zzschhk",
                 "Fire control is knocked out! Primary systems not responding! We need immediate assis - zzsschhk",
-                "Go! Go! Get to the life boats! She's getting ripped apart!"
+                "Go! Go! Get to the life boats! She's getting ripped apart! Get the hell out of h - zzzsschhk"
             };
 
             var i = _random.Next(0, character.Count - 1);
@@ -597,6 +600,20 @@ namespace Battleships.Services
 
             i = _random.Next(0, speech.Count - 1);
             Print(speech[i] + "\n");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public void Admiralty(string name, string annoucement)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("[");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write( name + " | Admiralty");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("]: ");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+            Print(annoucement);
             Console.ForegroundColor = ConsoleColor.White;
         }
 
