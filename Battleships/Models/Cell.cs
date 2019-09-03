@@ -29,14 +29,14 @@ namespace Battleships.Models
             return X + "-" + Y;
         }
 
-        public string ToString(Board board)
+        public string ToString(Player player)
         {
             if (Hit && Ship != null)
             {
                 return "[" + HitMarker + "]";
             }
 
-            if (Ship != null && Board == board)
+            if (Ship != null && Board.Owner == player)
             {
                 return "[" + FriendlyMarker + "]";
             }

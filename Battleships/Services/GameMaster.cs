@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Battleships.Models;
 
 namespace Battleships.Services
@@ -12,8 +13,6 @@ namespace Battleships.Services
         private Player _player2;
         private int _gameFleetCap;
         private int _gameShipSize;
-
-        private Player _round;
 
         private readonly ShipPlacementService _shipPlacementService;
         private readonly BoardMicroservice _boardService;
@@ -43,16 +42,16 @@ namespace Battleships.Services
             {
                 case "pvp":
                     _consoleMicroservice.GameMasterSpeech("PvP it is then.\n");
-                    _boardService.SetupPvPBoards();
+                    (_player1, _player2, _board1, _board2, _gameMode) = _boardService.SetupPvPBoards();
                     break;
                 case "pve":
                     _consoleMicroservice.GameMasterSpeech("You cannot win against the AI. Feel free to try anyway.\n");
-                    _boardService.SetupPvEBoards();
+                    (_player1, _player2, _board1, _board2, _gameMode) = _boardService.SetupPvEBoards();
                     break;
                 default:
                     _consoleMicroservice.GameMasterSpeech("What was that? I didn't catch that. Let's get this going already.\n");
                     _consoleMicroservice.GameMasterSpeech("I think I'll just go ahead and pin you into the arena against the AI.\n");
-                    _boardService.SetupPvEBoards();
+                    (_player1, _player2, _board1, _board2, _gameMode) = _boardService.SetupPvEBoards();
                     break;
             }
         }
@@ -103,6 +102,7 @@ namespace Battleships.Services
                 _consoleMicroservice.GameMasterSpeech(input + " isn't a number between two and five. You can count with your fingers right?\n");
                 _consoleMicroservice.GameMasterSpeech("I wanted a number between " + GameSettings.MinShipSize + " and " + GameSettings.MaxShipSize + " right?\n");
                 _consoleMicroservice.GameMasterSpeech("Forget it. I will decide the ship size for you and I choose " + GameSettings.MaxShipSize + ". Let's move on.\n");
+                Thread.Sleep(3000);
 
                 _gameShipSize = GameSettings.MaxShipSize;
             }
@@ -118,21 +118,19 @@ namespace Battleships.Services
             _consoleMicroservice.GameMasterSpeech("An example: '3-5-n' will place the ship facing north.\n");
             _consoleMicroservice.GameMasterSpeech("You can choose to have the ships placed randomly as well. Just enter 'r'\n");
 
-            _consoleMicroservice.GameMasterSpeech("\n " + _player1.Name +". You first.\n");
+            _consoleMicroservice.GameMasterSpeech(_player1.Name +". You first.\n\n");
+            _consoleMicroservice.ShowBattleMap(_board1.Owner, _board1, ConsoleColor.Cyan);
             _shipPlacementService.PlaceFleet(_board1, _board2, _gameFleetCap, _gameShipSize, "Yeah. Even I can't be bothered placing ships one at a time.\n");
 
-            _consoleMicroservice.GameMasterSpeech("\n " + _player2.Name +". You next.\n");
+            _consoleMicroservice.GameMasterSpeech(_player2.Name +". You next.\n\n");
+            _consoleMicroservice.ShowBattleMap(_board2.Owner, _board2, ConsoleColor.Cyan);
             _shipPlacementService.PlaceFleet(_board2, _board1, _gameFleetCap, _gameShipSize, "Yeah too huh? Sure\n");
         }
 
         public void BeginGame()
         {
-            _consoleMicroservice.GameMasterSpeech("All is ready. Good luck.");
-            _consoleMicroservice.Print("5");
-            _consoleMicroservice.Print("4");
-            _consoleMicroservice.Print("3");
-            _consoleMicroservice.Print("2");
-            _consoleMicroservice.Print("1");
+            _consoleMicroservice.GameMasterSpeech("All is ready. Good luck.\n");
+            Thread.Sleep(3000);
             _consoleMicroservice.Clear();
             while (true)
             {
@@ -143,44 +141,49 @@ namespace Battleships.Services
 
         private void Round(Player attackingPlayer, Player victimPlayer)
         {
-            _consoleMicroservice.GameMasterSpeech(attackingPlayer.Name + "'s Round.");
+            _consoleMicroservice.GameMasterSpeech(attackingPlayer.Name + "'s Round.\n");
             _consoleMicroservice.ReadyFire(attackingPlayer.Name);
-            _consoleMicroservice.Print("[Current Fleet Positions]:");
-            _consoleMicroservice.ShowBattleMap(attackingPlayer.Board, attackingPlayer.Board, ConsoleColor.Cyan);
-            _consoleMicroservice.Print("\n\n");
-            _consoleMicroservice.Print("[Enemy Fleet Positions]:");
-            _consoleMicroservice.ShowBattleMap(attackingPlayer.Board, victimPlayer.Board, ConsoleColor.DarkBlue);
-            _consoleMicroservice.Print("\n\n");
+            _consoleMicroservice.Print("[Current Fleet Positions]:\n");
+            _consoleMicroservice.ShowBattleMap(attackingPlayer, attackingPlayer.Board, ConsoleColor.Cyan);
+            _consoleMicroservice.Print("[Enemy Fleet Positions]:\n");
+            _consoleMicroservice.ShowBattleMap(attackingPlayer, victimPlayer.Board, ConsoleColor.DarkBlue);
 
-            var input = _consoleMicroservice.GetInput("Invalid coordinates.");
             var valid = false;
             Ship target = null;
             while (!valid)
             {
+                Console.Write("Coordinates [x-y]: ");
+                var input = _consoleMicroservice.GetInput("Invalid coordinates.");
                 (valid, target) = _boardService.Fire(victimPlayer.Board, input);
 
                 if (!valid)
                 {
-                    _consoleMicroservice.InvalidFire();
+                    _consoleMicroservice.InvalidFire(attackingPlayer.Name);
                 }
             }
 
+            _consoleMicroservice.Firing(attackingPlayer.Name);
+            _consoleMicroservice.Tension();
+
             if (target == null)
             {
-                _consoleMicroservice.Miss();
+                _consoleMicroservice.Miss(attackingPlayer.Name);
             }
             else if (target.Hitbox.Count > 1)
             {
-                _consoleMicroservice.EnemyShipHit(target);
+                _consoleMicroservice.EnemyShipHit(attackingPlayer.Name);
             }
             else if (target.Hitbox.Count == 1)
             {
-                _consoleMicroservice.EnemyShipHitCritical(target);
+                _consoleMicroservice.EnemyShipHitCritical(attackingPlayer.Name);
             }
             else
             {
-                _consoleMicroservice.EnemyShipSunk(target);
+                _consoleMicroservice.EnemyShipSunk(attackingPlayer.Name);
             }
+
+            Thread.Sleep(3000);
+            _consoleMicroservice.Clear();
         }
     }
 }

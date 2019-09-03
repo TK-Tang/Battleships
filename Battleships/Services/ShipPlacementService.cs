@@ -15,7 +15,7 @@ namespace Battleships.Services
         public bool PlaceFleet(Board board1, Board board2, int fleetCap, int shipSize, string gmSassyRemark)
         {
             var shipsLeftToPlace = fleetCap;
-
+            Console.Write("Coordinates [x-y]: ");
             while (shipsLeftToPlace != 0)
             {
                 var input = _consoleMicroservice.GetInput("Invalid coordinates. Ships must be within the field of operations. Try again mate.\n");
@@ -23,13 +23,10 @@ namespace Battleships.Services
                 if (input.ToLower() == "r")
                 {
                     _consoleMicroservice.GameMasterSpeech(gmSassyRemark);
-                    shipsLeftToPlace = 0;
                     board1 = PlaceShipsRandomly(board1, shipSize, shipsLeftToPlace);
 
                     _consoleMicroservice.RadarOperatorAlliedBoard(board1.Owner.Name);
-                    _consoleMicroservice.ShowBattleMap(board1, board1, ConsoleColor.Cyan);
-                    _consoleMicroservice.RadarOperatorEnemyBoard(board1.Owner.Name);
-                    _consoleMicroservice.ShowBattleMap(board1, board2, ConsoleColor.DarkBlue);
+                    _consoleMicroservice.ShowBattleMap(board1.Owner, board1, ConsoleColor.Cyan);
 
                     return true;
                 }
@@ -38,7 +35,7 @@ namespace Battleships.Services
                 if (result)
                 {
                     shipsLeftToPlace = shipsLeftToPlace - 1;
-                    _consoleMicroservice.ShipInPosition(shipsLeftToPlace);
+                    _consoleMicroservice.ShipInPosition(shipsLeftToPlace, board1.Owner.Name);
                 }
                 else
                 {
@@ -46,7 +43,7 @@ namespace Battleships.Services
                 }
 
                 _consoleMicroservice.RadarOperatorAlliedBoard(board1.Owner.Name);
-                _consoleMicroservice.ShowBattleMap(board1, board1, ConsoleColor.Cyan);
+                _consoleMicroservice.ShowBattleMap(board1.Owner, board1, ConsoleColor.Cyan);
             }
 
             return true;

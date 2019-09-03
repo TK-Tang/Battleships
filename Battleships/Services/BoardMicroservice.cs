@@ -10,8 +10,6 @@ namespace Battleships.Services
             int x;
             int y;
 
-            Console.Write("Coordinates [x-y]: ");
-
             // Validation Block
             var inputArray = input.Split("-");
             if (inputArray.Length != 2)
@@ -37,16 +35,18 @@ namespace Battleships.Services
                 return (true, cell.Ship);
             }
 
-            return (false, null);
+            return (true, null);
         }
 
         public (Player, Player, Board, Board, GameMode) SetupPvEBoards()
         {
             var board1 = new Board();
             var player1 = new Player("Red Fleet", board1, false);
+            board1.Owner = player1;
 
             var board2 = new Board();
             var player2 = new Player("Blue Fleet", board2, true);
+            board2.Owner = player2;
 
             return (player1, player2, board1, board2, GameMode.PvE);
         }
