@@ -19,4 +19,12 @@
         Red,
         Green
     }
+
+    public enum DamageReport
+    {
+        Miss,
+        Damage,
+        CriticalDamage,
+        Sunk
+    }
 }

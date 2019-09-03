@@ -26,7 +26,7 @@ namespace Battleships.Services
                     board1 = PlaceShipsRandomly(board1, shipSize, shipsLeftToPlace);
 
                     _consoleMicroservice.RadarOperatorAlliedBoard(board1.Owner.Name);
-                    _consoleMicroservice.ShowBattleMap(board1.Owner, board1, ConsoleColor.Cyan);
+                    _consoleMicroservice.ShowBattleMap(board1.Owner, board1, ConsoleColor.Cyan, "[Current Allied Ship Positions]:\n");
 
                     return true;
                 }
@@ -43,7 +43,7 @@ namespace Battleships.Services
                 }
 
                 _consoleMicroservice.RadarOperatorAlliedBoard(board1.Owner.Name);
-                _consoleMicroservice.ShowBattleMap(board1.Owner, board1, ConsoleColor.Cyan);
+                _consoleMicroservice.ShowBattleMap(board1.Owner, board1, ConsoleColor.Cyan, "[Current Allied Ship Positions]:\n");
             }
 
             return true;

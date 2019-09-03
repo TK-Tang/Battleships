@@ -119,11 +119,11 @@ namespace Battleships.Services
             _consoleMicroservice.GameMasterSpeech("You can choose to have the ships placed randomly as well. Just enter 'r'\n");
 
             _consoleMicroservice.GameMasterSpeech(_player1.Name +". You first.\n\n");
-            _consoleMicroservice.ShowBattleMap(_board1.Owner, _board1, ConsoleColor.Cyan);
+            _consoleMicroservice.ShowBattleMap(_board1.Owner, _board1, ConsoleColor.Cyan, "Current position of allied ships: \n");
             _shipPlacementService.PlaceFleet(_board1, _board2, _gameFleetCap, _gameShipSize, "Yeah. Even I can't be bothered placing ships one at a time.\n");
 
             _consoleMicroservice.GameMasterSpeech(_player2.Name +". You next.\n\n");
-            _consoleMicroservice.ShowBattleMap(_board2.Owner, _board2, ConsoleColor.Cyan);
+            _consoleMicroservice.ShowBattleMap(_board2.Owner, _board2, ConsoleColor.Cyan, "Current position of allied ships: \n");
             _shipPlacementService.PlaceFleet(_board2, _board1, _gameFleetCap, _gameShipSize, "Yeah too huh? Sure\n");
         }
 
@@ -132,21 +132,32 @@ namespace Battleships.Services
             _consoleMicroservice.GameMasterSpeech("All is ready. Good luck.\n");
             Thread.Sleep(3000);
             _consoleMicroservice.Clear();
-            while (true)
+
+            var endGame = false;
+            while (!endGame)
             {
-                Round(_player1, _player2);
-                Round(_player2, _player1);
+                var damageReport = Round(_player1, _player2);
+                endGame = DamageReport(_player2, damageReport);
+
+                if (endGame)
+                {
+                    break;
+                }
+
+                damageReport = Round(_player2, _player1);
+                endGame = DamageReport(_player1, damageReport);
             }
         }
 
-        private void Round(Player attackingPlayer, Player victimPlayer)
+        private DamageReport Round(Player attackingPlayer, Player victimPlayer)
         {
             _consoleMicroservice.GameMasterSpeech(attackingPlayer.Name + "'s Round.\n");
             _consoleMicroservice.ReadyFire(attackingPlayer.Name);
-            _consoleMicroservice.Print("[Current Fleet Positions]:\n");
-            _consoleMicroservice.ShowBattleMap(attackingPlayer, attackingPlayer.Board, ConsoleColor.Cyan);
-            _consoleMicroservice.Print("[Enemy Fleet Positions]:\n");
-            _consoleMicroservice.ShowBattleMap(attackingPlayer, victimPlayer.Board, ConsoleColor.DarkBlue);
+            _consoleMicroservice.RadarOperatorAlliedBoard(attackingPlayer.Name);
+
+            _consoleMicroservice.ShowBattleMap(attackingPlayer, attackingPlayer.Board, ConsoleColor.Cyan, "[Current Allied Ship Positions]:\n");
+            _consoleMicroservice.RadarOperatorEnemyBoard(attackingPlayer.Name);
+            _consoleMicroservice.ShowBattleMap(attackingPlayer, victimPlayer.Board, ConsoleColor.Red, "[Known Enemy Ship Positions]:\n");
 
             var valid = false;
             Ship target = null;
@@ -165,25 +176,56 @@ namespace Battleships.Services
             _consoleMicroservice.Firing(attackingPlayer.Name);
             _consoleMicroservice.Tension();
 
+            var dR = Models.DamageReport.Miss;
+
             if (target == null)
             {
                 _consoleMicroservice.Miss(attackingPlayer.Name);
+                dR = Models.DamageReport.Miss;
             }
             else if (target.Hitbox.Count > 1)
             {
                 _consoleMicroservice.EnemyShipHit(attackingPlayer.Name);
+                dR = Models.DamageReport.Damage;
             }
             else if (target.Hitbox.Count == 1)
             {
                 _consoleMicroservice.EnemyShipHitCritical(attackingPlayer.Name);
+                dR = Models.DamageReport.CriticalDamage;
             }
             else
             {
                 _consoleMicroservice.EnemyShipSunk(attackingPlayer.Name);
+                dR = Models.DamageReport.Sunk;
             }
 
             Thread.Sleep(3000);
             _consoleMicroservice.Clear();
+            return dR;
+        }
+
+        private bool DamageReport(Player p, DamageReport dR)
+        {
+            switch (dR)
+            {
+                case Models.DamageReport.Damage:
+                    _consoleMicroservice.AlliedShipDamaged(p.Name);
+                    return false;
+                case Models.DamageReport.CriticalDamage:
+                    _consoleMicroservice.AlliedShipDamagedCritical(p.Name);
+                    return false;
+                case Models.DamageReport.Sunk:
+                    _consoleMicroservice.AlliedShipDestroyed(p.Name);
+                    return EndGame();
+                    break;
+                default:
+                    return false;
+            }
+        }
+
+        private bool EndGame()
+        {
+            foreach(var )
         }
     }
 }

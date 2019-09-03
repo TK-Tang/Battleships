@@ -26,7 +26,10 @@ namespace Battleships.Tests
         [Test]
         public void PlaceShipTest()
         {
-            Assert.IsTrue(_shipPlacementService.PlaceShip(_board1, "1-1-n", 5));
+            Assert.IsTrue(_shipPlacementService.PlaceShip(_board1, "1-1-n", 5)); // Legit placement
+            Assert.IsFalse(_shipPlacementService.PlaceShip(_board1, "0-0-s", 5)); // Outside map boundaray
+            Assert.IsFalse(_shipPlacementService.PlaceShip(_board1, "5-1-w", 5)); // Ship collision
+            Assert.IsFalse(_shipPlacementService.PlaceShip(_board1, "asdf-asdf-asdf", 5)); // Invalid input
         }
     }
 }

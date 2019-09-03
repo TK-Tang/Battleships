@@ -30,10 +30,11 @@ namespace Battleships.Services
             Console.Clear();
         }
 
-        public void ShowBattleMap(Player player, Board viewingBoard, ConsoleColor c)
+        public void ShowBattleMap(Player player, Board viewingBoard, ConsoleColor c, string str)
         {
             Console.ForegroundColor = c;
             Console.Write("\n");
+            Print(str);
 
             for (var y = GameSettings.MaxBoardSize - 1; y > -1; y--)
             {
@@ -336,7 +337,13 @@ namespace Battleships.Services
                 "We have visual. No targets hit. Enemy fleet still at large.",
                 "Nothing hit. Prepare to fire again.",
                 "Sonar registering nothing. We missed our shots.",
-                "Whiskey. Tango. Foxtrot. We missed our targets"
+                "Whiskey. Tango. Foxtrot. We missed our targets",
+                "No targets detected. Scratch it off the tactical map.",
+                "No encounters. Strike fighters refueling for next attack run.",
+                "Bombers returning. Report is in. All quiet. No enemy contacts.",
+                "Torpedoes zipped through the strike coordinates without any contact. Reload the tubes.",
+                "Contact negative. Coordinates are all clear",
+                "Tactical update. No enemy ships in the area."
             };
 
             var i = _random.Next(0, character.Count - 1);
@@ -380,7 +387,8 @@ namespace Battleships.Services
                 "Strike fighters report successful sortie. Enemy ships have sustained damage.",
                 "Bombers returning. We have a damaged enemy ship located here.",
                 "Right there. You see it? We have enemy targets in sight.",
-                "Tactical reports. Enemy ship struck."
+                "Tactical reports. Enemy ship struck.",
+                "Torpedo volley has hit something. We have enemy contact."
             };
 
             var i = _random.Next(0, character.Count - 1);
@@ -411,11 +419,11 @@ namespace Battleships.Services
             var speech = new List<string>
             {
                 "They're on the run. Enemy ship sustained heavy damage.",
-                "Enemy target dead in the water. One more strike and their finished.",
+                "Enemy target dead in the water. One more strike and they're finished.",
                 "Enemy ship taking substantial damage. Their whole ship is on fire.",
                 "Successful strike. Let's finish this.",
                 "Enemy ship hit. We almost have them.",
-                "Enemy ship severely damaged. We have the advantage",
+                "Enemy ship severely damaged. We have the advantage"
             };
 
             var i = _random.Next(0, character.Count - 1);
@@ -450,7 +458,9 @@ namespace Battleships.Services
                 "Enemy ship just blew up. Give us a new target.",
                 "Target ship annihilated. Only life boats remaining.",
                 "Great work fleet. We have a kill.",
-                "Target destroyed. Send new orders."
+                "Target destroyed. Send new orders.",
+                "Threat eliminated. Nothing but debris.",
+                "Enemy ship dispatched. Nothing but a smoldering wreck on our scopes."
             };
 
             var i = _random.Next(0, character.Count - 1);
@@ -493,7 +503,9 @@ namespace Battleships.Services
                 "Sustaining damage fleet.",
                 "We're taking enemy fire! Repair team one, you're up!",
                 "Under attack. Repair team two to station.",
-                "Under enemy attack. She's holding though."
+                "Under enemy attack. She's holding though.",
+                "Damage control to station! I don't want any delays!",
+                "Position compromised! All hands!",
             };
 
             var i = _random.Next(0, character.Count - 1);
