@@ -7,6 +7,7 @@ namespace Battleships.Models
     {
         public Cell[,] Field;
         public List<Ship> Fleet;
+        public Player Owner { get; set; }
 
         public Board()
         {

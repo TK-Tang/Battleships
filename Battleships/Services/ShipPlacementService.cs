@@ -5,13 +5,11 @@ namespace Battleships.Services
 {
     public class ShipPlacementService
     {
-        private readonly ConsoleMicroservice _consoleSubroutine;
-        private readonly FlavourTextService _flavourTextService;
+        private readonly ConsoleMicroservice _consoleMicroservice;
 
         public ShipPlacementService()
         {
-            _consoleSubroutine = new ConsoleMicroservice();
-            _flavourTextService = new FlavourTextService();
+            _consoleMicroservice = new ConsoleMicroservice();
         }
 
         public bool PlaceFleet(Board board1, Board board2, int fleetCap, int shipSize, string gmSassyRemark)
@@ -20,18 +18,18 @@ namespace Battleships.Services
 
             while (shipsLeftToPlace != 0)
             {
-                var input = _consoleSubroutine.GetInput("Invalid coordinates. Ships must be within the field of operations. Try again mate.\n");
+                var input = _consoleMicroservice.GetInput("Invalid coordinates. Ships must be within the field of operations. Try again mate.\n");
 
                 if (input.ToLower() == "r")
                 {
-                    _flavourTextService.GameMasterSpeech(gmSassyRemark);
+                    _consoleMicroservice.GameMasterSpeech(gmSassyRemark);
                     shipsLeftToPlace = 0;
                     board1 = PlaceShipsRandomly(board1, shipSize, shipsLeftToPlace);
 
-                    _flavourTextService.RadarOperatorAlliedBoard();
-                    _consoleSubroutine.ShowBattleMap(board1, board1, ConsoleColor.Cyan);
-                    _flavourTextService.RadarOperatorEnemyBoard();
-                    _consoleSubroutine.ShowBattleMap(board1, board2, ConsoleColor.DarkBlue);
+                    _consoleMicroservice.RadarOperatorAlliedBoard(board1.Owner.Name);
+                    _consoleMicroservice.ShowBattleMap(board1, board1, ConsoleColor.Cyan);
+                    _consoleMicroservice.RadarOperatorEnemyBoard(board1.Owner.Name);
+                    _consoleMicroservice.ShowBattleMap(board1, board2, ConsoleColor.DarkBlue);
 
                     return true;
                 }
@@ -40,15 +38,15 @@ namespace Battleships.Services
                 if (result)
                 {
                     shipsLeftToPlace = shipsLeftToPlace - 1;
-                    _flavourTextService.ShipInPosition(shipsLeftToPlace);
+                    _consoleMicroservice.ShipInPosition(shipsLeftToPlace);
                 }
                 else
                 {
-                    _flavourTextService.GameMasterSpeech("Invalid coordinates. Put your ship within the board.\n");
+                    _consoleMicroservice.GameMasterSpeech("Invalid coordinates. Put your ship within the board.\n");
                 }
 
-                _flavourTextService.RadarOperatorAlliedBoard();
-                _consoleSubroutine.ShowBattleMap(board1, board1, ConsoleColor.Cyan);
+                _consoleMicroservice.RadarOperatorAlliedBoard(board1.Owner.Name);
+                _consoleMicroservice.ShowBattleMap(board1, board1, ConsoleColor.Cyan);
             }
 
             return true;

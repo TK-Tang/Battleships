@@ -97,7 +97,7 @@ namespace Battleships.Services
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void RadarOperatorAlliedBoard()
+        public void RadarOperatorAlliedBoard(string name)
         {
             var speech = new List<string>
             {
@@ -113,8 +113,8 @@ namespace Battleships.Services
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("[");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Radar Operator");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(name + " | Radar Operator");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("]: ");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -124,7 +124,7 @@ namespace Battleships.Services
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void RadarOperatorEnemyBoard()
+        public void RadarOperatorEnemyBoard(string name)
         {
             var speech = new List<string>
             {
@@ -145,8 +145,8 @@ namespace Battleships.Services
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("[");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Radar Operator");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(name + " | Radar Operator");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("]: ");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -156,7 +156,7 @@ namespace Battleships.Services
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void ShipInPosition(int shipsRemaining)
+        public void ShipInPosition(int shipsRemaining, string name)
         {
             var speech = new List<string>
             {
@@ -170,7 +170,7 @@ namespace Battleships.Services
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("[");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Captain");
+            Console.Write(name + " | Captain");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("]: ");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -180,7 +180,7 @@ namespace Battleships.Services
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void ReadyFire()
+        public void ReadyFire(string name)
         {
             var character = new List<string>
             {
@@ -213,7 +213,7 @@ namespace Battleships.Services
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("[");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(character[i] + "\n");
+            Console.Write(name + " | " + character[i] + "\n");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("]: ");
             Console.ForegroundColor = ConsoleColor.DarkCyan;

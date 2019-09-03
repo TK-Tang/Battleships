@@ -43,10 +43,10 @@ namespace Battleships.Services
         public (Player, Player, Board, Board, GameMode) SetupPvEBoards()
         {
             var board1 = new Board();
-            var player1 = new Player("Player 1", board1, false);
+            var player1 = new Player("Red Fleet", board1, false);
 
             var board2 = new Board();
-            var player2 = new Player("Player 2", board2, true);
+            var player2 = new Player("Blue Fleet", board2, true);
 
             return (player1, player2, board1, board2, GameMode.PvE);
         }
@@ -54,10 +54,12 @@ namespace Battleships.Services
         public (Player, Player, Board, Board, GameMode) SetupPvPBoards()
         {
             var board1 = new Board();
-            var player1 = new Player("Player 1", board1, false);
+            var player1 = new Player("Red Fleet", board1, false);
+            board1.Owner = player1;
 
             var board2 = new Board();
-            var player2 = new Player("Player 2", board2, false);
+            var player2 = new Player("Blue Fleet", board2, false);
+            board2.Owner = player2;
 
             return (player1, player2, board1, board2, GameMode.PvP);
         }
