@@ -79,7 +79,7 @@ namespace Battleships.Services
                 _gameFleetCap = GameSettings.FleetCap;
             }
 
-            _consoleMicroservice.GameMasterSpeech("Okay, both sides will get a fleet of " + fleetCap + " ships.\n");
+            _consoleMicroservice.GameMasterSpeech("Okay, both sides will get a fleet of " + _gameFleetCap + " ships.\n");
         }
 
         public void ShipSettingsQuestion()
@@ -134,11 +134,23 @@ namespace Battleships.Services
             _consoleMicroservice.Clear();
 
             Player winner;
+            var damageReport = Models.DamageReport.Miss;
             while (true)
             {
                 _consoleMicroservice.GameMasterSpeech(_player1.Name + "'s Round.\n");
-                var damageReport = Round(_player1, _player2);
-                var endGame = DamageReport(_player2, damageReport);
+                var endGame = DamageReport(_player1, damageReport);
+
+                if (endGame)
+                {
+                    winner = _player2;
+                    break;
+                }
+
+                damageReport = Round(_player1, _player2);
+
+
+                _consoleMicroservice.GameMasterSpeech(_player2.Name + "'s Round.\n");
+                endGame = DamageReport(_player2, damageReport);
 
                 if (endGame)
                 {
@@ -146,15 +158,7 @@ namespace Battleships.Services
                     break;
                 }
 
-                _consoleMicroservice.GameMasterSpeech(_player2.Name + "'s Round.\n");
                 damageReport = Round(_player2, _player1);
-                endGame = DamageReport(_player1, damageReport);
-
-                if (endGame)
-                {
-                    winner = _player2;
-                    break;
-                }
             }
 
             _consoleMicroservice.Clear();

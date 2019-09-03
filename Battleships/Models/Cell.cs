@@ -13,7 +13,7 @@ namespace Battleships.Models
         public static string NoMarker = "-";
         public static string MissMarker = "o";
         public static string HitMarker = "X";
-        public static string FriendlyMarker = "=";
+        public static string FriendlyMarker = "+";
 
         public Cell(Board board, int x, int y)
         {

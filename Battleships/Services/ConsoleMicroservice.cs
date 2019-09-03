@@ -133,7 +133,7 @@ namespace Battleships.Services
             {
                 "Scanners active. Searching for targets.",
                 "Radar returning field of operations.",
-                "Enemies are out there, scanning for contacts",
+                "Enemies are out there, scanning for contacts.",
                 "Don't take your eyes off the scanner even for a second, you don't want them to get the jump you.",
                 "Sonar sweeping the seas.",
                 "On guard. Scoping for contacts.",
