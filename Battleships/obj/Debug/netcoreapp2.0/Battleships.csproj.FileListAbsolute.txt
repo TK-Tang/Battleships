@@ -1,0 +1,15 @@
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\Battleships.deps.json
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\Battleships.runtimeconfig.json
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\Battleships.runtimeconfig.dev.json
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\Battleships.dll
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\Battleships.pdb
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\obj\Debug\netcoreapp2.0\Battleships.csproj.CoreCompileInputs.cache
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\obj\Debug\netcoreapp2.0\Battleships.AssemblyInfoInputs.cache
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\obj\Debug\netcoreapp2.0\Battleships.AssemblyInfo.cs
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\obj\Debug\netcoreapp2.0\Battleships.dll
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\obj\Debug\netcoreapp2.0\Battleships.pdb
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\NUnit3.TestAdapter.dll
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\NUnit3.TestAdapter.pdb
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\nunit.engine.dll
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\bin\Debug\netcoreapp2.0\nunit.engine.api.dll
+C:\Users\TKTang\Documents\Visual Studio 2017\Projects\Battleships\Battleships\obj\Debug\netcoreapp2.0\Battleships.csprojResolveAssemblyReference.cache
